@@ -1,0 +1,55 @@
+# ===================================================================
+# GTAI Cell Line Finder — requirements.txt
+# Target: WSL2 Ubuntu + NVIDIA RTX 4060 + CUDA 12.x
+# Python: 3.10 or 3.11 (3.12 has partial RAPIDS support — stick to 3.10/3.11)
+# ===================================================================
+#
+# SETUP (run inside WSL2 Ubuntu terminal):
+#
+#   1. Confirm GPU passthrough works:
+#        nvidia-smi
+#      You should see "RTX 4060" and a CUDA version (12.x).
+#      If this fails → install NVIDIA drivers on WINDOWS (not inside WSL).
+#      WSL2 inherits the Windows GPU driver automatically.
+#
+#   2. Create venv:
+#        python3.10 -m venv gtai_venv
+#        source gtai_venv/bin/activate
+#
+#   3. Install everything in one shot:
+#        pip install --upgrade pip
+#        pip install -r requirements.txt --extra-index-url https://pypi.nvidia.com
+#
+#   The --extra-index-url flag is needed for the RAPIDS/NVIDIA packages.
+#   Do NOT use pypi.ngc.nvidia.com — that domain is deprecated.
+#
+# ===================================================================
+
+# --- Data & numerics ---
+pandas>=2.0
+numpy>=1.24
+scipy>=1.10
+
+# --- ML (CPU) ---
+scikit-learn>=1.3
+joblib>=1.3
+
+# --- ML (GPU — RAPIDS) ---
+# These require: WSL2 Linux | NVIDIA GPU | CUDA 12.x driver
+# Installed from https://pypi.nvidia.com via --extra-index-url
+cudf-cu12>=24.04
+cuml-cu12>=24.04
+cupy-cuda12x>=13.0
+
+# --- Graph & community detection ---
+networkx>=3.1
+python-igraph>=0.11
+leidenalg>=0.10
+
+# --- Visualization ---
+matplotlib>=3.7
+seaborn>=0.13
+
+# --- Jupyter (to run the notebook) ---
+jupyterlab>=4.0
+ipykernel>=6.25
